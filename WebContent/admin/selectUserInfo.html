@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		  <title>会员信息查询</title>
+	<!-- Bootstrap -->
+    <link rel="stylesheet" href="../js/bootstrap-3.3.5-dist/css/bootstrap.min.css" />
+	<!-- jQuery(Bootstrap)的所有JavaScript插件都依赖JQuery，所以必须放在前边-->
+	<script type="text/javascript" src="../js/bootstrap-3.3.5-dist/js/jquery.min.js" ></script>
+	<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+	<script type="text/javascript" src="../js/bootstrap-3.3.5-dist/js/bootstrap.js" ></script>
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->	  
+	<style type="text/css">
+	.cx{
+		padding-top: 20px;
+		padding-bottom: 20px;
+		background: #C9E2B3;
+		margin: auto;
+		width: 43%;
+	}
+	h2 button{
+		color: #BB0010;
+		width: 75px;
+		height: 40px;
+		font-size: 20px;
+	}
+	</style>
+	<!--<script>
+		$(function(){
+			$("#click").on("click",selectUser);
+		})
+		function selectUser(){
+			alert($("#selectname").val());
+			$.ajax({
+				type:"post",
+				url:"../SelectByNameServlet",
+				async:false,
+				data:{
+					"selectname":$("#selectname").val()
+			},
+			
+			});
+		}
+	</script>-->
+	</head>
+	<body style="background: #0FCCBC;" >
+		<center>
+			<div class="cx">
+				<center>
+		    		<form action="../SelectByNameServlet" method="post">
+		    		<h3>
+		    		请输入要查询的会员的名字：<input type="text"  id="selectname" name="selectname" size="16" style="height: 30px"/>
+		    		<!-- <button class="mui-btn mui-btn-negative mui-btn-block mui-btn-outlined" id="click">查询</button> -->
+		    		<input  type="submit" value="查询"/>
+		    		</h3>
+		    		</form>
+	    		</center>
+	    	</div>
+    	</center>
+	</body>
+</html>

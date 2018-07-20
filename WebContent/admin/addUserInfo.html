@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+ 		<link href="../js/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
+		<script src="../js/bootstrap-3.3.5-dist/js/jquery.min.js"></script>
+		<script src="../js/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+<title>会员添加页面</title>
+<link href="../css/adduser" rel="stylesheet" type="text/css">
+<style type="text/css">
+	span{
+		border: 2px solid #CCC; 
+		line-height: 26px; 
+		font-size: 14px;
+		color: #E9322D;
+	}
+</style>
+<script>
+	//会员名字的提示
+	$(function(){
+		$("#username").on("blur",show1);
+	})
+	function show1(){
+		if($("#username").val().length == 0){
+			$("#username").siblings("span").removeClass("hide");
+		}else{
+			$("#username").siblings("span").addClass("hide");
+		}
+	}
+	//第一次会员密码的提示
+	$(function(){
+		$("#newpasswordone").on("blur",show2);
+	})
+	function show2(){
+		if($("#newpasswordone").val().length < 6){
+			$("#newpasswordone").siblings("span").removeClass("hide");
+		}else{
+			$("#newpasswordone").siblings("span").addClass("hide");
+		}
+	}
+	
+	//第二次会员密码的提示
+	$(function(){
+		$("#newpasswordtwo").on("blur",show3);
+	})
+	function show3(){
+		if($("#newpasswordtwo").val() != $("#newpasswordone").val() || $("#newpasswordtwo").val().length < 0){
+			$("#newpasswordtwo").siblings("span").removeClass("hide");
+		}else{
+			$("#newpasswordtwo").siblings("span").addClass("hide");
+		}
+	}
+	
+	//手机号的提示
+	$(function(){
+		$("#usertelephone").on("blur",show4);
+	})
+	function show4(){
+		var mobile =/^1[3|4|5|7|8][0-9]\d{4,8}$/;
+		if($("#usertelephone").val().length >11 || $("#usertelephone").val().length <11 || mobile.test($())){
+			$("#usertelephone").siblings("span").removeClass("hide");
+		}else{
+			$("#usertelephone").siblings("span").addClass("hide");
+		}
+	}
+	//email的提示
+	$(function(){
+		$("#mail").on("blur",show5);
+	})
+	function show5(){
+		 var reg =  /^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/;
+		 if($("#mail").val().length > 0 && reg.test($("#mail").val())){
+		 		$("#mail").siblings("span").addClass("hide");
+		 }else{
+			$("#mail").siblings("span").removeClass("hide");
+		}
+
+	}
+	
+	//按钮提交信息
+	
+
+	function submitclick(){
+		
+		if($("#username").val().length != 0 && $("#newpasswordone").val().length != 0 ){
+			$.ajax({
+			type:"post",
+			url:"../addUserInfoServlet",
+			async:false,
+			data:{
+				"username":$("#username").val(),
+				"password":$("#newpasswordone").val(),
+				"usertelephone":$("#usertelephone").val(),
+				"gender": $('#gender input[name="gender"]:checked ').val(),
+				"email":$("#mail").val(),
+				"data":$("#input_monday").val(),
+				"education":$('#xueli option[name="education"]:checked').val(),		
+			},
+			success:function(data){
+				if(data == "ok"){
+					/*alert("插入的会员信息为：\n姓名："+$("#username").val()+"  ，密码："+$("#newpasswordone").val()+"  ，电话:"+
+					$("#usertelephone").val()+"  ，性别："+$('#gender input[name="gender"]:checked ').val()+
+					"  ，邮箱："+$("#mail").val()+"  ，出生日期："+$("#input_monday").val()+"  ，学历："+
+					$('#xueli option[name="education"]:checked').val());*/
+					alert("信息插入成功！");
+				}
+				else {
+					alert("插入失败！");
+				}
+			}		
+		});
+		}else{
+			alert("请输入相关信息！")
+			return;
+			
+	}	
+}
+	
+	
+</script>
+
+</head>
+
+<body style="background: #0FCCBC;">
+	<center>
+		<div id="container">
+			<div id="loginbox">
+				<br />
+				<p style="font-size: 16px; font-weight: bold">会员名称：
+				<input type="text"
+					style="width: 350px; height: 25px; border: 1px solid #CCC"
+					id="username" name="username"  size="26"/> <br>
+					<span class="hide" id="userNameSpan" hin>用户名不能为空！</span></p>
+				<br />
+	
+				<p style="font-size: 16px; font-weight: bold">登陆密码：
+				<input type="password" size="26"
+					style="width: 350px; height: 25px; border: 1px solid #CCC"
+					id="newpasswordone" name="userpassword" /> <br />
+					<span class="hide" id="userNameSpan">密码长度不能小于6位！</span></p>
+				<br />
+				<p style="font-size: 16px; font-weight: bold">确认密码：
+				<input type="password" size="26"
+					style="width: 350px; height: 25px; border: 1px solid #CCC"
+					id="newpasswordtwo" name="passwordtwo" /><br />
+				<span class="hide"	id="userNameSpan">密码不一致！</span></p>
+				</p>
+	
+				<p style="font-size: 16px; font-weight: bold">手机号：
+				<input type="text" size="26"
+					style="width: 350px; height: 25px; border: 1px solid #CCC"
+					id="usertelephone" name="usertelephone" /><br />
+					<span class="hide" id="usertelephoneSpan">请填写有效的手机号,11位数字！</span></p>
+				<br />
+				<p id="gender" style="font-size: 16px; font-weight: bold">性别：
+				<input type="radio"
+					style="width: 50px; height: 15px; border: 1px solid #CCC" id="man" checked="true"
+					name="gender" value="男">男 <input type="radio"
+					style="width: 50px; height: 15px; border: 1px solid #CCC"
+					id="woman" name="gender" value="女">女  </p>
+				<br />
+	
+				<p style="font-size: 16px; font-weight: bold">电子邮箱：
+				<input type="text" size="26"
+					style="width: 350px; height: 25px; border: 1px solid #CCC"
+					id="mail" name="email" /><br />
+				<span	class="hide" id="userNameSpan">请填写有效的电子邮箱！</span></p>
+				<br /> 
+				
+				<p style="font-size: 16px; font-weight: bold">出生日期：
+				<input type="date" name="attr.date_start" placeholder="时间开始"
+					data-date-format="yyyy-mm-dd" id="input_monday"></p>
+				<br />
+	
+				<p style="font-size: 16px; font-weight: bold">学历：
+				
+					<select id="xueli">        <!--下拉列表框-->
+						<option name="education" value="高中">高中</option>
+						<option name="education" value="专科">专科</option>
+						<option name="education" value="本科" selected="selected" >本科</option>
+						<option name="education" value="硕士">硕士</option>
+						<option name="education" value="博士及以上">博士及以上</option>
+						 
+					</select>
+				</p>
+				<br />
+	
+				<button id="btn1" onclick="submitclick()" class="btn-default btn">确定添加</button><br />
+			</div>
+		</div>
+	</center>
+</body>
+</html>
